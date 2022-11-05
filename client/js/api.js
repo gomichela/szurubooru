@@ -26,6 +26,11 @@ class Api extends events.EventTarget {
             "administrator",
             "nobody",
         ];
+        this.allSafetyFilters = [
+            "safe",
+            "sketchy",
+            "unsafe",
+        ];
         this.rankNames = new Map([
             ["anonymous", "Anonymous"],
             ["restricted", "Restricted user"],
@@ -34,6 +39,11 @@ class Api extends events.EventTarget {
             ["moderator", "Moderator"],
             ["administrator", "Administrator"],
             ["nobody", "Nobody"],
+        ]);
+        this.safetyFilterNames = new Map([
+            ["safe", "Safe"],
+            ["sketchy", "Sketchy"],
+            ["unsafe", "Unsafe"],
         ]);
     }
 

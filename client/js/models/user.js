@@ -19,6 +19,10 @@ class User extends events.EventTarget {
         return this._rank;
     }
 
+    get safety() {
+        return this._safety;
+    }
+
     get email() {
         return this._email;
     }
@@ -79,6 +83,10 @@ class User extends events.EventTarget {
         this._rank = value;
     }
 
+    set safety(value) {
+        this._safety = value;
+    }
+
     set email(value) {
         this._email = value || null;
     }
@@ -117,6 +125,9 @@ class User extends events.EventTarget {
         }
         if (this._email !== this._orig._email) {
             detail.email = this._email;
+        }
+        if (this.safety !== this._orig.safety) {
+            detail.safety = this.safety;
         }
         if (this._rank !== this._orig._rank) {
             detail.rank = this._rank;
@@ -175,6 +186,7 @@ class User extends events.EventTarget {
             _version: response.version,
             _name: response.name,
             _rank: response.rank,
+            _safety: response.safety,
             _email: response.email,
             _avatarStyle: response.avatarStyle,
             _avatarUrl: response.avatarUrl,

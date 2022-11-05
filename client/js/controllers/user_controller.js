@@ -58,6 +58,7 @@ class UserController {
                     ? api.allRanks.indexOf(api.user.rank)
                     : 0;
                 let ranks = {};
+                let safetyFilters = {};
                 for (let [rankIdx, rankIdentifier] of api.allRanks.entries()) {
                     if (rankIdentifier === "anonymous") {
                         continue;
@@ -66,6 +67,10 @@ class UserController {
                         continue;
                     }
                     ranks[rankIdentifier] = api.rankNames.get(rankIdentifier);
+                }
+
+                for (let [safetyIdx, safetyIdentifier] of api.allSafetyFilters.entries()) {
+                    safetyFilters[safetyIdentifier] = api.safetyFilterNames.get(safetyIdentifier);
                 }
 
                 if (isLoggedIn) {
@@ -85,6 +90,7 @@ class UserController {
                     canEditEmail: api.hasPrivilege(
                         `users:edit:${infix}:email`
                     ),
+                    canEditSafetyFilter: api.hasPrivilege(`users:edit:${infix}:safety`),
                     canEditRank: api.hasPrivilege(`users:edit:${infix}:rank`),
                     canEditAvatar: api.hasPrivilege(
                         `users:edit:${infix}:avatar`
@@ -102,6 +108,7 @@ class UserController {
                     ),
                     canDelete: api.hasPrivilege(`users:delete:${infix}`),
                     ranks: ranks,
+                    safetyFilters: safetyFilters,
                     tokens: userTokens,
                 });
                 this._view.addEventListener("change", (e) =>
@@ -181,6 +188,11 @@ class UserController {
         if (e.detail.email !== undefined) {
             e.detail.user.email = e.detail.email;
         }
+
+        if (e.detail.safety !== undefined) {
+            e.detail.user.safety = e.detail.safety;
+        }
+
         if (e.detail.rank !== undefined) {
             e.detail.user.rank = e.detail.rank;
         }

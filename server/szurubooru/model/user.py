@@ -19,6 +19,10 @@ class User(Base):
     RANK_ADMINISTRATOR = "administrator"
     RANK_NOBODY = "nobody"  # unattainable, used for privileges
 
+    SAFETY_SAFE = "safe"
+    SAFETY_SKETCHY = "sketchy"
+    SAFETY_UNSAFE = "unsafe"
+
     user_id = sa.Column("id", sa.Integer, primary_key=True)
     creation_time = sa.Column("creation_time", sa.DateTime, nullable=False)
     last_login_time = sa.Column("last_login_time", sa.DateTime)
@@ -31,6 +35,9 @@ class User(Base):
     )
     email = sa.Column("email", sa.Unicode(64), nullable=True)
     rank = sa.Column("rank", sa.Unicode(32), nullable=False)
+    safety_preference = sa.Column(
+        "safety_preference", sa.Unicode(32), nullable=False, default=SAFETY_SAFE
+    )
     avatar_style = sa.Column(
         "avatar_style", sa.Unicode(32), nullable=False, default=AVATAR_GRAVATAR
     )

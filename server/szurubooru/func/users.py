@@ -31,6 +31,9 @@ class InvalidPasswordError(errors.ValidationError):
 class InvalidRankError(errors.ValidationError):
     pass
 
+class InvalidSafetyPreferenceError(errors.ValidationError):
+    pass
+
 
 class InvalidAvatarError(errors.ValidationError):
     pass
@@ -107,6 +110,7 @@ class UserSerializer(serialization.BaseSerializer):
             "lastLoginTime": self.serialize_last_login_time,
             "version": self.serialize_version,
             "rank": self.serialize_rank,
+            "safetyPreference": self.serialize_safety_preference,
             "avatarStyle": self.serialize_avatar_style,
             "avatarUrl": self.serialize_avatar_url,
             "commentCount": self.serialize_comment_count,
@@ -131,6 +135,9 @@ class UserSerializer(serialization.BaseSerializer):
 
     def serialize_rank(self) -> Any:
         return self.user.rank
+
+    def serialize_safety_preference(self) -> Any:
+        return self.user.safety_preference
 
     def serialize_avatar_style(self) -> Any:
         return self.user.avatar_style
@@ -218,10 +225,13 @@ def create_user(name: str, password: str, email: str) -> model.User:
     update_user_name(user, name)
     update_user_password(user, password)
     update_user_email(user, email)
+    
     if get_user_count() > 0:
         user.rank = util.flip(auth.RANK_MAP)[config.config["default_rank"]]
     else:
         user.rank = model.User.RANK_ADMINISTRATOR
+    # TODO - Work on an assert implementation for safety preference
+    user.safety_preference = model.User.SAFETY_SAFE
     user.creation_time = datetime.utcnow()
     user.avatar_style = model.User.AVATAR_GRAVATAR
     return user
