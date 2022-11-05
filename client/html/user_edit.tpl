@@ -47,6 +47,17 @@
                 </li>
             <% } %>
 
+            <% if (ctx.canEditSafetyFilter) { %>
+                <li>
+                    <%= ctx.makeSelect({
+                        text: 'Content Filter',
+                        name: 'safety',
+                        keyValues: ctx.safetyFilters,
+                        selectedKey: ctx.user.rank,
+                    }) %>
+                </li>
+            <% } %>
+
             <% if (ctx.canEditAvatar) { %>
                 <li class='avatar'>
                     <label>Avatar</label>

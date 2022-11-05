@@ -79,6 +79,10 @@ class UserEditView extends events.EventTarget {
                         ? this._emailInputNode.value
                         : undefined,
 
+                    safety: this._safetyInputNode
+                        ? this._safetyInputNode.value
+                        : undefined,
+
                     rank: this._rankInputNode
                         ? this._rankInputNode.value
                         : undefined,
@@ -103,6 +107,10 @@ class UserEditView extends events.EventTarget {
 
     get _rankInputNode() {
         return this._formNode.querySelector("[name=rank]");
+    }
+
+    get _safetyInputNode() {
+        return this._formNode.querySelector("[name=safety]");
     }
 
     get _emailInputNode() {
