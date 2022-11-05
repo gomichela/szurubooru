@@ -53,7 +53,7 @@
                         text: 'Content Filter',
                         name: 'safety',
                         keyValues: ctx.safetyFilters,
-                        selectedKey: ctx.user.rank,
+                        selectedKey: ctx.user.safety,
                     }) %>
                 </li>
             <% } %>
