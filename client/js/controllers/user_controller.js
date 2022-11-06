@@ -10,6 +10,7 @@ const UserToken = require("../models/user_token.js");
 const topNavigation = require("../models/top_navigation.js");
 const UserView = require("../views/user_view.js");
 const EmptyView = require("../views/empty_view.js");
+const settings = require("../models/settings.js");
 
 class UserController {
     constructor(ctx, section) {
@@ -221,6 +222,7 @@ class UserController {
             })
             .then(
                 () => {
+                    settings._resetSafetySettings();
                     this._view.showSuccess("Settings updated.");
                     this._view.enableForm();
                 },

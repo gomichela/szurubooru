@@ -37,6 +37,12 @@ class Settings extends events.EventTarget {
         return ret;
     }
 
+    _resetSafetySettings() {
+        let settings = this._getFromLocalStorage();
+        settings = Object.assign(settings, {listPosts: { safe: true, sketchy: false, unsafe: false }});
+        this.save(settings, true);
+    }
+
     save(newSettings, silent) {
         newSettings = Object.assign(this.cache, newSettings);
         localStorage.setItem("settings", JSON.stringify(newSettings));
