@@ -77,6 +77,9 @@ def update_user(ctx: rest.Context, params: Dict[str, str]) -> rest.Response:
     if ctx.has_param("email"):
         auth.verify_privilege(ctx.user, "users:edit:%s:email" % infix)
         users.update_user_email(user, ctx.get_param_as_string("email"))
+    if ctx.has_param("safetyPreference"):
+        auth.verify_privilege(ctx.user, "users:edit:%s:safety" % infix)
+        users.update_user_safety_preference(user, ctx.get_param_as_string("safetyPreference"))
     if ctx.has_param("rank"):
         auth.verify_privilege(ctx.user, "users:edit:%s:rank" % infix)
         users.update_user_rank(user, ctx.get_param_as_string("rank"), ctx.user)

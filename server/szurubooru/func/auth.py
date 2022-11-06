@@ -123,6 +123,12 @@ def verify_privilege(user: model.User, privilege_name: str) -> None:
     if not has_privilege(user, privilege_name):
         raise errors.AuthError("Insufficient privileges to do this.")
 
+def verify_privilege_boolean(user: model.User, privilege_name: str) -> None:
+    assert user
+    if not has_privilege(user, privilege_name):
+        return False
+    return True
+
 
 def generate_authentication_token(user: model.User) -> str:
     """Generate nonguessable challenge (e.g. links in password reminder)."""

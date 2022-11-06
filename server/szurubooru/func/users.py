@@ -283,6 +283,9 @@ def update_user_email(user: model.User, email: str) -> None:
         raise InvalidEmailError("E-mail is invalid.")
     user.email = email or None
 
+def update_user_safety_preference(user: model.User, safety: str) -> None:
+    user.safety_preference = safety or None
+
 
 def update_user_rank(
     user: model.User, rank: str, auth_user: model.User

@@ -118,8 +118,10 @@ class Executor:
         self,
         ctx: rest.Context,
         serializer: Callable[[model.Base], rest.Response],
+        query_override
     ) -> rest.Response:
-        query = ctx.get_param_as_string("query", default="")
+        
+        query = query_override if query_override else ctx.get_param_as_string("query", default="")
         offset = ctx.get_param_as_int("offset", default=0, min=0)
         limit = ctx.get_param_as_int("limit", default=100, min=1, max=100)
         count, entities = self.execute(query, offset, limit)

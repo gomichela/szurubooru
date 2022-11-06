@@ -45,8 +45,13 @@ def get_posts(
 ) -> rest.Response:
     auth.verify_privilege(ctx.user, "posts:list")
     _search_executor_config.user = ctx.user
+    query_override = ""
+    # TODO - Fix bug where anonymous user tries to filter all content flags, it doesn't work and fallbacks to only safe
+    # If user is not logged in or doesn't have risque privileges, force a safe posts result every time
+    if not auth.verify_privilege_boolean(ctx.user, "posts:safety:risque_content"):
+        query_override="-rating:sketchy,unsafe"
     return _search_executor.execute_and_serialize(
-        ctx, lambda post: _serialize_post(ctx, post)
+        ctx, lambda post: _serialize_post(ctx, post), query_override
     )
 
 
@@ -114,6 +119,9 @@ def create_snapshots_for_post(
 def get_post(ctx: rest.Context, params: Dict[str, str]) -> rest.Response:
     auth.verify_privilege(ctx.user, "posts:view")
     post = _get_post(params)
+    # Check if user accessing a post has privileges to access risque content
+    if post.safety == post.SAFETY_SKETCHY or post.safety == post.SAFETY_UNSAFE:
+        auth.verify_privilege(ctx.user, "posts:safety:risque_content")
     return _serialize_post(ctx, post)
 
 

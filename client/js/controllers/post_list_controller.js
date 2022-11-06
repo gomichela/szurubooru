@@ -2,6 +2,7 @@
 
 const router = require("../router.js");
 const api = require("../api.js");
+const User = require("../models/user.js")
 const settings = require("../models/settings.js");
 const uri = require("../util/uri.js");
 const PostList = require("../models/post_list.js");
@@ -38,10 +39,18 @@ class PostListController {
         topNavigation.activate("posts");
         topNavigation.setTitle("Listing posts");
 
+        var highestSafetyFilterPrivilege = 'safe';
+
+        if (api.user && api.user.safetyPreference){
+            highestSafetyFilterPrivilege = api.user.safetyPreference;
+        }
+
         this._headerView = new PostsHeaderView({
             hostNode: this._pageController.view.pageHeaderHolderNode,
             parameters: ctx.parameters,
             enableSafety: api.safetyEnabled(),
+            canViewRisqueSafetyOptions: api.hasPrivilege("posts:safety:risqueContent"),
+            highestSafetyFilterPrivilege: highestSafetyFilterPrivilege,
             canBulkEditTags: api.hasPrivilege("posts:bulk-edit:tags"),
             canBulkEditSafety: api.hasPrivilege("posts:bulk-edit:safety"),
             bulkEdit: {
@@ -103,6 +112,7 @@ class PostListController {
                 return uri.formatClientLink("posts", parameters);
             },
             requestPage: (offset, limit) => {
+                // Here we edit for posts page
                 return PostList.search(
                     this._ctx.parameters.query,
                     offset,

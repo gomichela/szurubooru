@@ -17,6 +17,16 @@ class PostReadonlySidebarControl extends events.EventTarget {
         this._post = post;
         this._postContentControl = postContentControl;
 
+        var relations = this._post.relations; 
+
+        var highestSafetyFilterPrivilege = 'safe';
+
+        if (api.user && api.user.safetyPreference){
+            highestSafetyFilterPrivilege = api.user.safetyPreference;
+        }
+
+        var filteredRelations = relations.filter(relation => api.safetyFilterAllowedRelations[highestSafetyFilterPrivilege].includes(relation.safety));
+
         post.addEventListener("changeFavorite", (e) => this._evtChangeFav(e));
         post.addEventListener("changeScore", (e) => this._evtChangeScore(e));
 
@@ -25,6 +35,7 @@ class PostReadonlySidebarControl extends events.EventTarget {
             template({
                 post: this._post,
                 enableSafety: api.safetyEnabled(),
+                relations: filteredRelations,
                 canListPosts: api.hasPrivilege("posts:list"),
                 canEditPosts: api.hasPrivilege("posts:edit"),
                 canViewTags: api.hasPrivilege("tags:view"),

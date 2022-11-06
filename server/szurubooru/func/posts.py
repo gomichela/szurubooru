@@ -354,10 +354,12 @@ def serialize_post(
 
 
 def serialize_micro_post(
+    #TODO - edit this section to only serialize content depending on the user safety, will filter on front end for now
+    # We need to add user validation
     post: model.Post, auth_user: model.User
 ) -> Optional[rest.Response]:
     return serialize_post(
-        post, auth_user=auth_user, options=["id", "thumbnailUrl"]
+        post, auth_user=auth_user, options=["id", "thumbnailUrl", "safety"]
     )
 
 

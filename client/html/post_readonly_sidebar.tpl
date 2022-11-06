@@ -67,11 +67,11 @@
         </section>
     </article>
 
-    <% if (ctx.post.relations.length) { %>
+    <% if (ctx.relations.length) { %>
         <nav class='relations'>
-            <h1>Relations (<%- ctx.post.relations.length %>)</h1>
+            <h1>Relations (<%- ctx.relations.length %>)</h1>
             <ul><!--
-                --><% for (let post of ctx.post.relations) { %><!--
+                --><% for (let post of ctx.relations) { %><!--
                     --><li><!--
                         --><a href='<%= ctx.getPostUrl(post.id, ctx.parameters) %>'><!--
                             --><%= ctx.makeThumbnail(post.thumbnailUrl) %><!--

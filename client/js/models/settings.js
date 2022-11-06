@@ -5,7 +5,7 @@ const events = require("../events.js");
 const defaultSettings = {
     listPosts: {
         safe: true,
-        sketchy: true,
+        sketchy: false,
         unsafe: false,
     },
     upscaleSmallPosts: false,

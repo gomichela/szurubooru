@@ -45,6 +45,12 @@ class Api extends events.EventTarget {
             ["sketchy", "Sketchy"],
             ["unsafe", "Unsafe"],
         ]);
+
+        this.safetyFilterAllowedRelations = {
+            safe: ["safe"],
+            sketchy: ["safe", "sketchy"],
+            unsafe: ["safe", "sketchy", "unsafe"],
+        };
     }
 
     get(url, options) {
