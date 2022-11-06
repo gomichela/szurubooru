@@ -118,7 +118,7 @@ class Executor:
         self,
         ctx: rest.Context,
         serializer: Callable[[model.Base], rest.Response],
-        query_override
+        query_override=""
     ) -> rest.Response:
         
         query = query_override if query_override else ctx.get_param_as_string("query", default="")
